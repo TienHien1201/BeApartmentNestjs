@@ -1,0 +1,14 @@
+name: 
+
+on:
+  push: 
+    branch: ["main"]
+jobs: 
+  build: 
+    runs-on: ubuntu-lastest
+
+    steps: 
+      - users: actions/checkout@v4
+
+      - name: Đăng nhập docker hub
+        run: docker login -u tienhiendev -p 

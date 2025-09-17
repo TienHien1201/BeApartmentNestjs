@@ -1,0 +1,19 @@
+services:
+  service-apartment_bussiness:
+    image: img-be_apartment_bussiness
+    container_name: con-be_apartment_bussiness
+    ports:
+      - 3070:3069
+    env_file:
+      - .env
+    depends_on:
+      - service-mysql
+
+  service-mysql:
+    image: mysql
+    container_name: apartment_mysql
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: '8000'
+      MYSQL_DATABASE: 'aklht_apartment'
