@@ -2,13 +2,13 @@ name:
 
 on:
   push: 
-    branch: ["main"]
+    branchs: ["main"]
 jobs: 
   build: 
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
 
     steps: 
-      - users: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Đăng nhập docker hub
         run: docker login -u tienhiendev -p ${{secrets.PASS_SECRET}}

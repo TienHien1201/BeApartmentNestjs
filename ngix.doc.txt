@@ -13,6 +13,11 @@ sudo nano /etc/nginx/sites-available/default
 # xoá dòng: xoá cho nhanh
 ctrl + K
 
+# test và restart lại nginx
+sudo nginx -t && sudo systemctl restart nginx
+
+
+mở 2 cổng 80 và 443 ở aws
 =====================================================================
 server {
     listen 80;
@@ -45,6 +50,7 @@ server {
 
 
 SSL ========================
+mở 2 cổng 80 và 443 ở aws
 server {
     listen 80;
     server_name be.tabbicus.com;   # Đổi thành domain BE của bạn

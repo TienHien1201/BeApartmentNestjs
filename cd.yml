@@ -4,7 +4,7 @@ on:
     workflow_run: 
         workflows: ["ci"]
         types: 
-            - complete
+            - completed
 jobs: 
     start: 
         runs-on: be_aparment_bussiness
