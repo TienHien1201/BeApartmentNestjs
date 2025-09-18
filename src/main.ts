@@ -28,7 +28,7 @@ async function bootstrap() {
   app.useGlobalGuards(new PermissionGuard1(reflector));
 
   const config = new DocumentBuilder()
-    .setTitle('Aparment Bussiness')
+    .setTitle('Aparment Bussiness Test')
     .setDescription('The cats API description')
     .setVersion('1.0')
     .addBearerAuth()

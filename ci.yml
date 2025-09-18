@@ -2,7 +2,7 @@ name: CI/CD Build and Push Docker Image
 
 on:
   push: 
-    branchs: ["main"]
+    branches: ["main"]
 jobs: 
   build: 
     runs-on: ubuntu-latest
