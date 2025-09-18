@@ -15,7 +15,7 @@ jobs:
         #   run: sudo docker compose up -d 
 
         - name: Kéo image mới về
-          run : sudo docker compose pull be_aparment_bussiness
+          run : sudo docker compose pull be_apartment_bussiness
 
         - name: Tạo lại container be_aparment_bussiness
           run: sudo docker compose up -d --no-deps --force--recreate BE
