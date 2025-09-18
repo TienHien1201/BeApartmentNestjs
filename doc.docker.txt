@@ -21,6 +21,9 @@ https://docs.docker.com/reference/dockerfile/
   docker image remove img-be_apartment_bussiness \\
   docker image build -t img-be_apartment_bussiness .
 
+# Cài MySql trên docker
+        docker pull mysql:8.0
+
 ## CONTAINER
     # show tất cả container
     docker container list: show những container đang online
@@ -53,7 +56,8 @@ https://docs.docker.com/reference/dockerfile/
 # DOCKER COMPOSE
     docker-compose down -v
     docker-compose up --build -d
-    #Docker hub(server)
+    
+# Docker hub(server)
         docker start id_container
         docker login
         docker image build -t tienhiendev/img-be_apartment_bussiness:latest .
