@@ -1,6 +1,6 @@
 services:
   service-apartment_bussiness:
-    image: tienhiendev/img-be_apartment_bussiness:latest
+    image: tienhiendev/img-be_apartment_bussiness:lastest
     container_name: con-be_apartment_bussiness
     ports:
       - 3070:3069
