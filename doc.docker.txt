@@ -56,7 +56,7 @@ https://docs.docker.com/reference/dockerfile/
 # DOCKER COMPOSE
     docker-compose down -v
     docker-compose up --build -d
-    
+
 # Docker hub(server)
         docker start id_container
         docker login
@@ -70,6 +70,8 @@ https://docs.docker.com/reference/dockerfile/
     # Nếu có thay đổi code hoặc Dockerfile
     docker stop <container_id_or_name>
     docker start <container_id_or_name>
+
+    [ https://docs.docker.com/engine/install/ubuntu/]
 
 # Lệnh ubuntu hay dùng
     ls -la
