@@ -7,7 +7,7 @@ on:
             - completed
 jobs: 
     start: 
-        runs-on: be_apartment_bussiness
+        runs-on: be-apartment_bussiness
 
         steps: 
         # chạy lần đầu thành công r lần sau comment lại để k mất hết dữ liệu db. Chạy lần đầu nhớ mở cái dòng này ra

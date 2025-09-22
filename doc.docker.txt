@@ -90,3 +90,97 @@ ghi file bằng nano
     nano docker-compose.yml
     ctrl + O | Enter: save file
     ctrl + X: thoát giao diện chỉnh sửa
+
+
+============================ Practice work ============================================
+# quy trình để build một server gồm các lệnh sau: 
+
+1. Connect vào instance mà ta đã tạo trên aws
+- Vào terminal trỏ để nơi lưu file rsa để xác thực vào instance trêm aws
+
+ ```
+ ssh -i "bussiness_service_secret.pem" ubuntu@ec2-54-169-120-121.ap-southeast-1.compute.amazonaws.com
+ ```
+ 2. Tạo một folder để gom các file ta cấu hình cho gọn và chuyên nghiệp
+ ```
+ mkdir home
+ ```
+ 3. Sau đó  vào link [ https://docs.docker.com/engine/install/ubuntu/] coppy hết lệnh bên dưới rồi pass vào chạy để thêm GPG key chính thức của Docker và 
+ Thêm repository Docker vào APT sources
+
+ ```
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+ ```
+
+ 4. Cài docker 
+ ```
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+ ```
+=> Một số hệ thống có thể sẽ bị pause docker sau khi cài xong nếu bị thì có thể chạy lệnh 
+```
+sudo systemctl status docker
+sudo systemctl start docker
+```
+
+5. vào src ở repository trên github mà ta đã push lên vào 
+setting -> action -> runner (https://github.com/TienHien1201/BeApartmentNestjs/settings/actions/runners/new?arch=x64&os=linux)
+ấn new self-hosted runner nhớ chọn linux là đc rồi coppy các lệnh: 
+    5.1
+    ```
+    mkdir actions-runner && cd actions-runner
+    ```
+        5.1.1 vì nhiều src nên cần tạo nhiều action runner sau dễ mở rộng
+        ```
+        mkdir be_bussiness_service && cd be_bussiness_service
+        ```
+
+    5.2
+    ```
+    curl -o actions-runner-linux-x64-2.328.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz
+    ```
+
+    5.3
+    ```
+    echo "01066fad3a2893e63e6ca880ae3a1fad5bf9329d60e77ee15f2b97c148c3cd4e  actions-runner-linux-x64-2.328.0.tar.gz" | shasum -a 256 -c
+    ```
+
+    5.4 
+    ```
+    tar xzf ./actions-runner-linux-x64-2.328.0.tar.gz
+    ```
+
+    5.5 lệnh này quan trọng cần chú ý
+    ```
+    ./config.sh --url https://github.com/TienHien1201/BeApartmentNestjs --token A56NANQEDLCDDLKU2GBSRCDI2FW6G
+    ```
+     -  Khi enter 2 lần xong
+    -> tới lần thứ 3 là Enter any additional labels thì nhớ phải vào file cd.yml ta điền runs-on cái gì thì ta phải lấy đúng cái runs-on đó để github biết đc 
+    ta muốn chạy server nào. Nom na là ta đang tạo một cái tên của server để github biết đc ta muốn chạy server nào
+    => mình sẽ điền ``` be_apartment_bussiness ``` rồi enter
+    -  rồi cuối cùng enter luôn
+6. Chạy online runner
+```
+sudo ./svc.sh install
+sudo ./svc.sh start
+```
+-> Kiểm tra xem docker đang có gì
+```
+sudo su
+sudo docker ps
+```
+nhớ khi chạy kết nối runner với server => không được kẹp sudo su
+
+7. Sau đó push code lên cho chạy ci cd để có folder _work ở server của ta
