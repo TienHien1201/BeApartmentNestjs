@@ -205,3 +205,12 @@ touch .env
 -> nano .env     
     - dán code dô
     - ctrl o -> enter -> ctrl x 
+11. sau khi chạy lần đầu xong (nhớ vào xem file cd để xem cách chạy đã note) 
+-> gõ ``` docker ps ``` để xem docker đang Chạy
+->    ``` docker ps -a ``` để xem cả container của mysql và src 
+-> sau đó gõ ``` docker logs <b116fcd5e03f>```(đây là id của container src của ta để xem chạy thành công không)       
+
+12. sau khi connect đc mysql vào server và tạo một db mới vào import các thứ xong rồi chạy lại
+
+    -> docker ps -ac
+    -> ``` docker start <b116fcd5e03f>``` (chạy lại docker là xong)
