@@ -184,3 +184,24 @@ sudo docker ps
 nhớ khi chạy kết nối runner với server => không được kẹp sudo su
 
 7. Sau đó push code lên cho chạy ci cd để có folder _work ở server của ta
+
+8. Sau khi chạy lần đầu xong ta gõ ```ls -la``` sẽ thấy folder _work
+```
+cd _work
+```
+
+9. Sau đó tạo 2 file cấu hình để có thể run src đc ở server
+
+```
+touch docker-compose.yml
+touch .env
+```
+
+10. copy code vào 2 file vừa tạo để trên server có thể chạy đc
+
+-> nano docker-compose.yml 
+    - dán code dô
+    - ctrl o -> enter -> ctrl x 
+-> nano .env     
+    - dán code dô
+    - ctrl o -> enter -> ctrl x 
