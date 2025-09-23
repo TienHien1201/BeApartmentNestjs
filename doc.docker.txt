@@ -144,7 +144,7 @@ setting -> action -> runner (https://github.com/TienHien1201/BeApartmentNestjs/s
     ```
         5.1.1 vì nhiều src nên cần tạo nhiều action runner sau dễ mở rộng
         ```
-        mkdir be_bussiness_service && cd be_bussiness_service
+        mkdir be-bussiness_service && cd be-bussiness_service
         ```
 
     5.2
