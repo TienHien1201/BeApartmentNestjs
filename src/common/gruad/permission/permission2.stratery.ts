@@ -60,11 +60,11 @@ export class PermissionStrategy2 extends PassportStrategy(
       },
     });
 
+    console.log({ user, method, endpoint, rolePermissionExist });
     if (!rolePermissionExist) {
       throw new BadRequestException('User not permission');
     }
 
-    // console.log({ user, method, endpoint, rolePermissionExist });
 
     return user;
   }

@@ -29,6 +29,7 @@ export class AuthController {
   }
   @Post('login')
   @Public()
+  @MessageResonse('Login Success')
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }

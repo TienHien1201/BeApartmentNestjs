@@ -5,12 +5,14 @@ import { User } from 'src/common/decorator/user.decorator';
 import type { Users } from 'generated/prisma';
 import { SkipPermission } from 'src/common/decorator/skip-permission.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { MessageResonse } from 'src/common/decorator/message-response.decorator';
 @Controller('article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
   // http://localhost:3000/api/article/
   @Get('')
-  @SkipPermission() 
+  @SkipPermission()
+  @MessageResonse('Get Article Success')
   @ApiBearerAuth()
   findAll(
     @Query()

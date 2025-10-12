@@ -31,8 +31,8 @@ model ChatGroupMembers {
   deletedAt   DateTime?   @db.Timestamp(0)
   createdAt   DateTime    @default(now()) @db.Timestamp(0)
   updatedAt   DateTime    @default(now()) @db.Timestamp(0)
-  Users       Users?      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ChatGroupMembers_ibfk_1")
-  ChatGroups  ChatGroups? @relation(fields: [chatGroupId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ChatGroupMembers_ibfk_2")
+  Users       Users?      @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "ChatGroupMembers_ibfk_1")
+  ChatGroups  ChatGroups? @relation(fields: [chatGroupId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "ChatGroupMembers_ibfk_2")
 
   @@index([chatGroupId], map: "chatGroupId")
   @@index([userId], map: "userId")
@@ -49,7 +49,7 @@ model ChatGroups {
   createdAt        DateTime           @default(now()) @db.Timestamp(0)
   updatedAt        DateTime           @default(now()) @db.Timestamp(0)
   ChatGroupMembers ChatGroupMembers[]
-  Users            Users?             @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ChatGroups_ibfk_1")
+  Users            Users?             @relation(fields: [ownerId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "ChatGroups_ibfk_1")
   ChatMessages     ChatMessages[]
 
   @@index([ownerId], map: "ownerId")
@@ -65,8 +65,8 @@ model ChatMessages {
   deletedAt    DateTime?  @db.Timestamp(0)
   createdAt    DateTime   @default(now()) @db.Timestamp(0)
   updatedAt    DateTime   @default(now()) @db.Timestamp(0)
-  ChatGroups   ChatGroups @relation(fields: [chatGroupId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ChatMessages_ibfk_1")
-  Users        Users      @relation(fields: [userIdSender], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ChatMessages_ibfk_2")
+  ChatGroups   ChatGroups @relation(fields: [chatGroupId], references: [id], onUpdate: Restrict, map: "ChatMessages_ibfk_1")
+  Users        Users      @relation(fields: [userIdSender], references: [id], onUpdate: Restrict, map: "ChatMessages_ibfk_2")
 
   @@index([chatGroupId], map: "chatGroupId")
   @@index([userIdSender], map: "userIdSender")
@@ -82,7 +82,7 @@ model Chats {
   deletedAt DateTime? @db.Timestamp(0)
   createdAt DateTime  @default(now()) @db.Timestamp(0)
   updatedAt DateTime  @default(now()) @db.Timestamp(0)
-  Users     Users     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Chats_ibfk_1")
+  Users     Users     @relation(fields: [userId], references: [id], onUpdate: Restrict, map: "Chats_ibfk_1")
 
   @@index([userId], map: "userId")
 }
@@ -111,8 +111,8 @@ model RolePermission {
   deletedAt    DateTime?   @db.Timestamp(0)
   createdAt    DateTime    @default(now()) @db.Timestamp(0)
   updatedAt    DateTime    @default(now()) @db.Timestamp(0)
-  Roles        Roles       @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "RolePermission_ibfk_1")
-  Permissions  Permissions @relation(fields: [permissionId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "RolePermission_ibfk_2")
+  Roles        Roles       @relation(fields: [roleId], references: [id], onUpdate: Restrict, map: "RolePermission_ibfk_1")
+  Permissions  Permissions @relation(fields: [permissionId], references: [id], onUpdate: Restrict, map: "RolePermission_ibfk_2")
 
   @@index([permissionId], map: "permissionId")
   @@index([roleId], map: "roleId")
@@ -151,7 +151,7 @@ model Users {
   ChatGroups       ChatGroups[]
   ChatMessages     ChatMessages[]
   Chats            Chats[]
-  Roles            Roles              @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Users_ibfk_1")
+  Roles            Roles              @relation(fields: [roleId], references: [id], onUpdate: Restrict, map: "Users_ibfk_1")
 
   @@index([roleId], map: "roleId")
 }
