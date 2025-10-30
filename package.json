@@ -21,6 +21,7 @@
     "prisma": "npx prisma db pull && npx prisma generate"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.0",
@@ -35,6 +36,7 @@
     "cloudinary": "^2.7.0",
     "dotenv": "^17.2.1",
     "multer": "^2.0.2",
+    "nodemailer": "^7.0.10",
     "otplib": "^12.0.1",
     "passport-custom": "^1.1.1",
     "passport-jwt": "^4.0.1",

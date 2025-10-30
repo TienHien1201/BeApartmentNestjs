@@ -50,7 +50,7 @@ export class UserController {
 
   @Post('avatar-local')
   @MessageResonse('Upload avatar success')
-  @UseInterceptors(FileInterceptor('avatar',uploadLocal))
+  @UseInterceptors(FileInterceptor('avatar', uploadLocal))
   avatarLocal(@UploadedFile() file: Express.Multer.File, @User() user: Users) {
     return this.userService.avatarLocal(file, user);
   }

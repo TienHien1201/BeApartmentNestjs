@@ -93,7 +93,7 @@ export class UserService {
           .end(file.buffer);
       },
     );
-console.log("uploadResult", uploadResult);
+    console.log('uploadResult', uploadResult);
     if (uploadResult === undefined) {
       throw new BadRequestException('Chưa tìm thấy file');
     }

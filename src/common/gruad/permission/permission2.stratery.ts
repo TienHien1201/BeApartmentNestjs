@@ -65,7 +65,6 @@ export class PermissionStrategy2 extends PassportStrategy(
       throw new BadRequestException('User not permission');
     }
 
-
     return user;
   }
 }

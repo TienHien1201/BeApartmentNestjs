@@ -8,6 +8,8 @@ import { TokenService } from 'src/modules/modules-system/token/token.service';
 import { Users } from 'generated/prisma';
 import { RegisterDto } from './dto/register.dto';
 import { TotpService } from '../totp/totp.service';
+import { sendMail } from 'src/common/nodemailer/init.nodemailer';
+import { ACCESS_LOGIN, ACCESS_REGISTER, IS_DELETED } from 'src/common/enums/app.enums';
 
 @Injectable()
 export class AuthService {
@@ -53,8 +55,12 @@ export class AuthService {
       throw new BadRequestException('Mật khẩu không chính xác');
     }
     const tokens = this.tokenService.createTokens(userExits.id);
+    sendMail(userExits.email, ACCESS_LOGIN);
+    
     return tokens;
   }
+  
+  @Post('register')
   async register(registerDto: RegisterDto) {
     const { email, password, fullName } = registerDto;
 
@@ -81,7 +87,7 @@ export class AuthService {
     console.log({ userNew });
 
     // delete userNew.password;
-
+    sendMail(email, ACCESS_REGISTER, fullName);
     return userNew;
   }
   create(createAuthDto: CreateAuthDto) {
