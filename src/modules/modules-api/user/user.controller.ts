@@ -14,10 +14,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from 'src/common/decorator/user.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
-import type { Users } from 'generated/prisma';
-import { SkipPermission } from 'src/common/decorator/skip-permission.decorator';
 import { MessageResonse } from 'src/common/decorator/message-response.decorator';
 import { uploadLocal } from 'src/common/multer/local.multer';
+import type { users } from 'generated/prisma';
 
 @Controller('user')
 export class UserController {
@@ -51,14 +50,14 @@ export class UserController {
   @Post('avatar-local')
   @MessageResonse('Upload avatar success')
   @UseInterceptors(FileInterceptor('avatar', uploadLocal))
-  avatarLocal(@UploadedFile() file: Express.Multer.File, @User() user: Users) {
+  avatarLocal(@UploadedFile() file: Express.Multer.File, @User() user: users) {
     return this.userService.avatarLocal(file, user);
   }
 
   @Post('avatar-cloud')
   @MessageResonse('Upload avatar success')
   @UseInterceptors(FileInterceptor('avatar'))
-  avatarCloud(@UploadedFile() file: Express.Multer.File, @User() user: Users) {
+  avatarCloud(@UploadedFile() file: Express.Multer.File, @User() user: users) {
     return this.userService.avatarCloud(file, user);
   }
 }

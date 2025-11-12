@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Users } from 'generated/prisma';
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
 import { SaveTotpDto } from './dto/save-totp.dto';
 import { PrismaService } from 'src/modules/modules-system/prisma/prisma.service';
 import { DisableTotpDto } from './dto/disable-totp.dto';
 import { VerifyTotpDto } from './dto/verify-totp.dto';
+import { users } from 'generated/prisma';
 
 /**
 ALTER TABLE `Users`
@@ -17,9 +17,9 @@ export class TotpService {
   constructor(private readonly prisma: PrismaService) {}
 
   // Bước 1 không save secrect
-  async generate(user: Users) {
+  async generate(user: users) {
     // Nếu mà người dùng đã bật Totp rồi thì không cần phải tạo nữa
-    if (user.totpSecret) {
+    if (user.totp_secret) {
       throw new BadRequestException('User already has totpSecret');
     }
 
@@ -35,9 +35,9 @@ export class TotpService {
   }
 
   // Bước 2 save secrect
-  async save(saveTotpDto: SaveTotpDto, user: Users) {
+  async save(saveTotpDto: SaveTotpDto, user: users) {
     // nếu người dùng đã bật Totp thì không save nữa
-    if (user.totpSecret) {
+    if (user.totp_secret) {
       throw new BadRequestException('User already has totpSecret');
     }
 
@@ -53,7 +53,7 @@ export class TotpService {
         id: user.id,
       },
       data: {
-        totpSecret: secret,
+        totp_secret: secret,
       },
     });
 
@@ -61,14 +61,14 @@ export class TotpService {
   }
 
   // Tắt Totp: chỉ áp dụng cho người đã bật
-  async disable(disableTotpDto: DisableTotpDto, user: Users) {
-    if (!user.totpSecret) {
+  async disable(disableTotpDto: DisableTotpDto, user: users) {
+    if (!user.totp_secret) {
       throw new BadRequestException('User does not have totpSecret');
     }
 
     const { token } = disableTotpDto;
 
-    const isCheck = authenticator.check(token, user.totpSecret);
+    const isCheck = authenticator.check(token, user.totp_secret);
     if (!isCheck) {
       throw new BadRequestException('Token is not valid');
     }
@@ -78,7 +78,7 @@ export class TotpService {
         id: user.id,
       },
       data: {
-        totpSecret: null,
+        totp_secret: null,
       },
     });
 
@@ -86,14 +86,14 @@ export class TotpService {
   }
 
   // Xác minh token: chỉ áp dụng cho người đã bật
-  verify(verifyTotpDto: VerifyTotpDto, user: Users) {
-    if (!user.totpSecret) {
+  verify(verifyTotpDto: VerifyTotpDto, user: users) {
+    if (!user.totp_secret) {
       throw new BadRequestException('User does not have totpSecret');
     }
 
     const { token } = verifyTotpDto;
 
-    const isCheck = authenticator.check(token, user.totpSecret);
+    const isCheck = authenticator.check(token, user.totp_secret);
     if (!isCheck) {
       throw new BadRequestException('Token is not valid');
     }

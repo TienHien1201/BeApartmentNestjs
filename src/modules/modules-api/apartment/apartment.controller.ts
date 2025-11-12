@@ -6,10 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  Headers,
+  Req,
 } from '@nestjs/common';
 import { ApartmentService } from './apartment.service';
 import { CreateApartmentDto } from './dto/create-apartment.dto';
 import { UpdateApartmentDto } from './dto/update-apartment.dto';
+import { MessageResonse } from 'src/common/decorator/message-response.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { QueryApartmentDto } from './dto/query-apartment.dto';
+import type { users } from 'generated/prisma';
+import { User } from 'src/common/decorator/user.decorator';
 
 @Controller('apartment')
 export class ApartmentController {
@@ -20,13 +28,23 @@ export class ApartmentController {
     return this.apartmentService.create(createApartmentDto);
   }
 
-  @Get()
-  findAll() {
-    return this.apartmentService.findAll();
+  @Get('')
+  @MessageResonse('Get Aparments success')
+  @ApiBearerAuth()
+  findAll(
+    @Query() query: QueryApartmentDto,
+    @Param() param,
+    @Headers() Headers,
+    @Req() req,
+    @User()
+    user: users,
+  ) {
+    return this.apartmentService.findAll(query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  @MessageResonse('find Apartment Success')
+  findOne(@Param('id') id: number) {
     return this.apartmentService.findOne(+id);
   }
 

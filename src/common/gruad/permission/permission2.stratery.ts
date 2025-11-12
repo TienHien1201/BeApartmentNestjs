@@ -1,13 +1,13 @@
 import { Strategy } from 'passport-custom';
 import { PassportStrategy } from '@nestjs/passport';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ACCESS_TOKEN_SECRET } from 'src/common/constant/app.constant';
-import { Users } from 'generated/prisma';
+
 import { PrismaService } from 'src/modules/modules-system/prisma/prisma.service';
 import { Request } from 'express';
+import { users } from 'generated/prisma';
 // import { jwtConstants } from './constants';
 
-type RequestUser = Request & { user: Users };
+type RequestUser = Request & { user: users };
 
 @Injectable()
 export class PermissionStrategy2 extends PassportStrategy(
@@ -30,7 +30,7 @@ export class PermissionStrategy2 extends PassportStrategy(
     // console.log({user});
 
     // role admin thì cho qua
-    if (user.roleId === 1) {
+    if (user.role_id === 1) {
       return user;
     }
 
@@ -48,15 +48,15 @@ export class PermissionStrategy2 extends PassportStrategy(
     //     },
     // });
 
-    const rolePermissionExist = await this.prisma.rolePermission.findFirst({
+    const rolePermissionExist = await this.prisma.role_permission.findFirst({
       where: {
-        roleId: user.roleId,
+        role_id: user.role_id,
         // permissionId: permission.id, // // tham khảo
-        Permissions: {
+        permissions: {
           endpoint: endpoint,
           method: method,
         },
-        isActive: true,
+        is_active: true,
       },
     });
 

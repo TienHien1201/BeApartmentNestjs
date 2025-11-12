@@ -13,7 +13,11 @@ const transporter = nodemailer.createTransport({
 
 // Wrap in an async IIFE so we can use await.
 
-export const sendMail = async (to: string, typeAccess?: string, fullName?: string) => {
+export const sendMail = async (
+  to: string,
+  typeAccess?: string,
+  fullName?: string,
+) => {
   const isLogin = typeAccess === 'login';
 
   const info = await transporter.sendMail({
@@ -29,14 +33,16 @@ export const sendMail = async (to: string, typeAccess?: string, fullName?: strin
       ${isLogin ? 'Cảnh báo đăng nhập' : 'Thông báo đăng ký'}
     </p>
     <p>
-      ${fullName 
-        ? `Chào mừng <b>${fullName}</b>, tài khoản của bạn vừa mới thao tác` 
-        : 'Tài khoản của bạn vừa mới thao tác'
+      ${
+        fullName
+          ? `Chào mừng <b>${fullName}</b>, tài khoản của bạn vừa mới thao tác`
+          : 'Tài khoản của bạn vừa mới thao tác'
       }
       <b>
-        ${isLogin 
-          ? 'đăng nhập vào Apartment Business' 
-          : 'đăng ký thành công tài khoản Apartment Business'
+        ${
+          isLogin
+            ? 'đăng nhập vào Apartment Business'
+            : 'đăng ký thành công tài khoản Apartment Business'
         }.
       </b>
     </p>

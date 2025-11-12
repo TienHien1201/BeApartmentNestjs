@@ -6,7 +6,7 @@ import path from 'path';
 import * as fs from 'fs';
 import { cloudinary } from 'src/common/cloudinary/init.cloudinary';
 import { UploadApiResponse } from 'cloudinary';
-import { Users } from 'generated/prisma';
+import { users } from 'generated/prisma';
 
 @Injectable()
 export class UserService {
@@ -31,7 +31,7 @@ export class UserService {
     return `This action removes a #${id} user`;
   }
 
-  async avatarLocal(file: Express.Multer.File, user: Users) {
+  async avatarLocal(file: Express.Multer.File, user: users) {
     console.log(file);
     if (!file) {
       throw new BadRequestException('Chưa tìm thấy file');
@@ -75,7 +75,7 @@ export class UserService {
     };
   }
 
-  async avatarCloud(file: Express.Multer.File, user: Users) {
+  async avatarCloud(file: Express.Multer.File, user: users) {
     if (!file) {
       throw new BadRequestException('Chưa tìm thấy file');
     }

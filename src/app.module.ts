@@ -10,6 +10,7 @@ import { PermissionStrategy2 } from './common/gruad/permission/permission2.strat
 import { TotpModule } from './modules/modules-api/totp/totp.module';
 import { ApartmentModule } from './modules/modules-api/apartment/apartment.module';
 import { UserModule } from './modules/modules-api/user/user.module';
+import { ApartmentImageModule } from './modules/modules-api/apartment-image/apartment-image.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UserModule } from './modules/modules-api/user/user.module';
     TotpModule,
     UserModule,
     ApartmentModule,
+    ApartmentImageModule,
   ],
   controllers: [AppController],
   providers: [AppService, ProtectStrategy2, PermissionStrategy2],

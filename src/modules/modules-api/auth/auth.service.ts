@@ -5,11 +5,11 @@ import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/modules/modules-system/prisma/prisma.service';
 import { TokenService } from 'src/modules/modules-system/token/token.service';
-import { Users } from 'generated/prisma';
 import { RegisterDto } from './dto/register.dto';
 import { TotpService } from '../totp/totp.service';
 import { sendMail } from 'src/common/nodemailer/init.nodemailer';
-import { ACCESS_LOGIN, ACCESS_REGISTER, IS_DELETED } from 'src/common/enums/app.enums';
+import { users } from 'generated/prisma';
+import { ACCESS_LOGIN, ACCESS_REGISTER } from 'src/common/enums/app.enums';
 
 @Injectable()
 export class AuthService {
@@ -18,8 +18,8 @@ export class AuthService {
     private readonly tokenService: TokenService,
     private readonly totpService: TotpService,
   ) {}
-  getInfo(user: Users) {
-    return { ...user, isTotp: !!user.totpSecret };
+  getInfo(user: users) {
+    return { ...user, isTotp: !!user.totp_secret };
   }
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
@@ -34,7 +34,7 @@ export class AuthService {
       );
     }
     // Vào case này khi người dùng đang bật 2fa
-    if (userExits.totpSecret) {
+    if (userExits.totp_secret) {
       if (!token) {
         // Bước 1 không có token
         // Nếu không có token thì trả về isTotp là true để Frontend chuyển sang layout nhập token
@@ -56,10 +56,10 @@ export class AuthService {
     }
     const tokens = this.tokenService.createTokens(userExits.id);
     sendMail(userExits.email, ACCESS_LOGIN);
-    
+
     return tokens;
   }
-  
+
   @Post('register')
   async register(registerDto: RegisterDto) {
     const { email, password, fullName } = registerDto;
@@ -80,7 +80,7 @@ export class AuthService {
       data: {
         email: email,
         password: passwordHash,
-        fullName: fullName,
+        full_name: fullName,
       },
     });
 

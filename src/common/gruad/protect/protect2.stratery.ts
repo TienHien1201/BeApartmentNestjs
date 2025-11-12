@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ACCESS_TOKEN_SECRET } from 'src/common/constant/app.constant';
 import { PrismaService } from 'src/modules/modules-system/prisma/prisma.service';
-import { Users } from 'generated/prisma';
+import { users } from 'generated/prisma';
 
 @Injectable()
 export class ProtectStrategy2 extends PassportStrategy(Strategy, 'protect') {
@@ -15,7 +15,7 @@ export class ProtectStrategy2 extends PassportStrategy(Strategy, 'protect') {
     });
   }
 
-  async validate({ userId }: { userId: Users['id'] }) {
+  async validate({ userId }: { userId: users['id'] }) {
     const user = await this.prisma.users.findUnique({
       where: {
         id: userId,

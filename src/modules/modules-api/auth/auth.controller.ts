@@ -13,10 +13,10 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { Public } from 'src/common/decorator/public.decorator';
 import { User } from 'src/common/decorator/user.decorator';
-import type { Users } from 'generated/prisma';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { MessageResonse } from 'src/common/decorator/message-response.decorator';
 import { RegisterDto } from './dto/register.dto';
+import type { users } from 'generated/prisma';
 
 @Controller('auth')
 @ApiBearerAuth()
@@ -39,7 +39,7 @@ export class AuthController {
   }
   @Get('get-info')
   @MessageResonse('Lấy thông tin người dùng thành công')
-  getInfo(@User() user: Users) {
+  getInfo(@User() user: users) {
     return this.authService.getInfo(user);
   }
   @Get()
