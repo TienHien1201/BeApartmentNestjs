@@ -48,7 +48,7 @@ export class ApartmentImageController {
   @Get('apartment/:aparmentId')
   @MessageResonse('Find Image Of Apartment Success')
   findImageInApartment(@Param('aparmentId') aparmentId: number) {
-    return this.apartmentImageService.findImageInApartment(+aparmentId);
+    return this.apartmentImageService.findByApartmentId(+aparmentId);
   }
 
   @Patch(':id')

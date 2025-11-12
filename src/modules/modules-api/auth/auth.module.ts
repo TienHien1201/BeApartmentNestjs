@@ -5,7 +5,7 @@ import { TokenModule } from 'src/modules/modules-system/token/token.module';
 import { TotpService } from '../totp/totp.service';
 
 @Module({
-  imports: [TokenModule, TokenModule],
+  imports: [TokenModule],
   controllers: [AuthController],
   providers: [AuthService, TotpService],
 })

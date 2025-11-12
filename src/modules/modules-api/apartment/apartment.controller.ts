@@ -14,7 +14,7 @@ import { ApartmentService } from './apartment.service';
 import { CreateApartmentDto } from './dto/create-apartment.dto';
 import { UpdateApartmentDto } from './dto/update-apartment.dto';
 import { MessageResonse } from 'src/common/decorator/message-response.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { QueryApartmentDto } from './dto/query-apartment.dto';
 import type { users } from 'generated/prisma';
 import { User } from 'src/common/decorator/user.decorator';
@@ -23,22 +23,25 @@ import { User } from 'src/common/decorator/user.decorator';
 export class ApartmentController {
   constructor(private readonly apartmentService: ApartmentService) {}
 
-  @Post()
+  @Post('create')
+  @MessageResonse('Create apartmet success')
+  @ApiBearerAuth()
   create(@Body() createApartmentDto: CreateApartmentDto) {
     return this.apartmentService.create(createApartmentDto);
   }
 
-  @Get('')
-  @MessageResonse('Get Aparments success')
+  @Get()
+  @MessageResonse('Get apartment success')
   @ApiBearerAuth()
-  findAll(
-    @Query() query: QueryApartmentDto,
-    @Param() param,
-    @Headers() Headers,
-    @Req() req,
-    @User()
-    user: users,
-  ) {
+  @ApiQuery({ name: 'page', example: 1, required: true })
+  @ApiQuery({ name: 'pageSize', example: 3, required: true })
+  @ApiQuery({
+    name: 'filters',
+    required: false,
+    example: '{"apartment_name":"Căn hộ"}',
+    description: 'Bộ lọc JSON, ví dụ: {"apartment_name":"Căn hộ"}',
+  })
+  findAll(@Query() query: QueryApartmentDto) {
     return this.apartmentService.findAll(query);
   }
 

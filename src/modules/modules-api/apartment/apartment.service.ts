@@ -1,12 +1,22 @@
-import { BadRequestException, Body, Get, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Get,
+  Injectable,
+  Post,
+} from '@nestjs/common';
 import { CreateApartmentDto } from './dto/create-apartment.dto';
 import { UpdateApartmentDto } from './dto/update-apartment.dto';
 import { QueryApartmentDto } from './dto/query-apartment.dto';
 import { PrismaService } from 'src/modules/modules-system/prisma/prisma.service';
+import { ApartmentImageService } from '../apartment-image/apartment-image.service';
 
 @Injectable()
 export class ApartmentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly apartmentImageService: ApartmentImageService,
+  ) {}
 
   async findAll(query: QueryApartmentDto) {
     let { page, pageSize, filters: filtersStringJson } = query;
@@ -48,8 +58,30 @@ export class ApartmentService {
       items: apartments || [],
     };
   }
-  create(createApartmentDto: CreateApartmentDto) {
-    return 'This action adds a new apartment';
+  async create(createApartmentDto: CreateApartmentDto) {
+    const { image_urls = [], ...apartmentData } = createApartmentDto;
+
+    const apartment = await this.prisma.apartments.create({
+      data: apartmentData,
+    });
+
+    if (image_urls.length > 0) {
+      await Promise.all(
+        image_urls.map((url) =>
+          this.apartmentImageService.create({
+            apartment_id: apartment.id,
+            image_url: url,
+          }),
+        ),
+      );
+    }
+
+    return await this.prisma.apartments.findUnique({
+      where: { id: apartment.id },
+      include: {
+        apartment_images: true,
+      },
+    });
   }
   async findOne(id: number) {
     const apartmentExits = await this.prisma.apartments.findUnique({
